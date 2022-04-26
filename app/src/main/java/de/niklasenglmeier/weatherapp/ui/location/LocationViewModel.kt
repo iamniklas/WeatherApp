@@ -1,10 +1,10 @@
-package de.niklasenglmeier.weatherapp.ui.dashboard
+package de.niklasenglmeier.weatherapp.ui.location
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class DashboardViewModel : ViewModel() {
+class LocationViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is dashboard Fragment"
