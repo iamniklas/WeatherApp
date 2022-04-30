@@ -8,8 +8,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.squareup.picasso.Picasso
+import de.niklasenglmeier.weatherapp.models.WeatherData
 
 class DetailsActivity : AppCompatActivity() {
+    private lateinit var weatherData: WeatherData
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.apply {
@@ -20,16 +23,18 @@ class DetailsActivity : AppCompatActivity() {
             sharedElementExitTransition = AutoTransition()
         }
 
+        weatherData = intent.getParcelableExtra("weather_data")!!
+
         setContentView(R.layout.activity_details)
 
-        findViewById<TextView>(R.id.textView_acdetails_city_name).text = intent.getStringExtra("city_name")
-        findViewById<TextView>(R.id.textView_acdetails_status).text = intent.getStringExtra("weather_status")
-        findViewById<TextView>(R.id.textView_acdetails_temp).text = "${intent.getStringExtra("temperature_c")}° C"
-        Picasso.get().load("https:${intent.getStringExtra("weather_status_icon")}").into(findViewById<ImageView>(R.id.imageView_acdetails_status))
-        findViewById<TextView>(R.id.textView_acdetails_feelsLike).text = intent.getStringExtra("temperature_feels_like")
-        findViewById<TextView>(R.id.textView_acdetails_windSpeed).text = intent.getStringExtra("wind_speed")
-        findViewById<TextView>(R.id.textView_acdetails_windDirection).text = intent.getStringExtra("wind_direction")
-        findViewById<TextView>(R.id.textView_acdetails_visibility).text = intent.getStringExtra("visibility")
-        findViewById<TextView>(R.id.textView_acdetails_humidity).text = intent.getStringExtra("humidity")
+        findViewById<TextView>(R.id.textView_acdetails_city_name).text = weatherData.cityName
+        findViewById<TextView>(R.id.textView_acdetails_status).text = weatherData.condition
+        findViewById<TextView>(R.id.textView_acdetails_temp).text = "${weatherData.temperatureCelsius}° C"
+        Picasso.get().load("https:${weatherData.conditionIcon}").into(findViewById<ImageView>(R.id.imageView_acdetails_status))
+        findViewById<TextView>(R.id.textView_acdetails_feelsLike).text = "${weatherData.temperatureFeelsLike}° C"
+        findViewById<TextView>(R.id.textView_acdetails_windSpeed).text = "${weatherData.windSpeedInKph} kph"
+        findViewById<TextView>(R.id.textView_acdetails_windDirection).text = weatherData.windDirection
+        findViewById<TextView>(R.id.textView_acdetails_visibility).text = "${weatherData.visibilityInKm} km"
+        findViewById<TextView>(R.id.textView_acdetails_humidity).text = "${weatherData.humidity} %"
     }
 }

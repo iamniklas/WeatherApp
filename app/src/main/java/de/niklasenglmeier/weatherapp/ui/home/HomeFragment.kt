@@ -77,15 +77,7 @@ class HomeFragment : Fragment(), HomeRecyclerViewAdapter.ItemClickListener, Frag
         val statusIcon = androidx.core.util.Pair<View, String>((binding.recyclerViewFragmentHomeWeatherCards.findViewHolderForAdapterPosition(position) as HomeRecyclerViewAdapter.ViewHolder).statusIcon, "weather_status_icon")
 
         val intent = Intent(requireContext(), DetailsActivity::class.java)
-        intent.putExtra("city_name", data!!.cityName)
-        intent.putExtra("temperature_c", data.temperatureCelsius.roundToInt().toString())
-        intent.putExtra("weather_status", data.condition)
-        intent.putExtra("weather_status_icon", data.conditionIcon)
-        intent.putExtra("temperature_feels_like", "${data.temperatureFeelsLike.roundToInt()}° C")
-        intent.putExtra("wind_speed", "${data.windSpeedInKph} kph")
-        intent.putExtra("wind_direction", data.windDirection)
-        intent.putExtra("visibility", "${data.visibilityInKm} km")
-        intent.putExtra("humidity", "${data.humidity} %")
+        intent.putExtra("weather_data", data!!)
 
         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), cityName, temperature, status, statusIcon)
 
