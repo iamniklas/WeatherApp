@@ -5,11 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import de.niklasenglmeier.weatherapp.SharedPreferences
 import de.niklasenglmeier.weatherapp.databinding.FragmentLocationBinding
+import de.niklasenglmeier.weatherapp.ui.FragmentReloader
 
-class LocationFragment : Fragment() {
+class LocationFragment : Fragment(), LocationRecyclerViewAdapter.ItemClickListener, FragmentReloader {
 
     private var _binding: FragmentLocationBinding? = null
 
@@ -17,26 +21,46 @@ class LocationFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    private lateinit var locations: MutableList<String>
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel =
-            ViewModelProvider(this).get(LocationViewModel::class.java)
-
         _binding = FragmentLocationBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textDashboard
-        dashboardViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+        locations = SharedPreferences.getSavedLocations(requireContext()).toMutableList()
+
+        val recyclerView = binding.recyclerViewLocation
+        recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        val adapter = LocationRecyclerViewAdapter(requireActivity(), 0, locations, requireContext())
+        adapter.setClickListener(this)
+        recyclerView.adapter = adapter
+
         return root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onItemClick(id: Int, position: Int) {
+        locations.removeAt(position)
+
+        SharedPreferences.saveLocations(requireContext(), locations)
+        onReload()
+    }
+
+    override fun onReload() {
+        locations = SharedPreferences.getSavedLocations(requireContext()).toMutableList()
+
+        val recyclerView = binding.recyclerViewLocation
+        recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        val adapter = LocationRecyclerViewAdapter(requireActivity(), 0, locations, requireContext())
+        adapter.setClickListener(this)
+        recyclerView.adapter = adapter
     }
 }

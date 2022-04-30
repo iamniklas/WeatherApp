@@ -2,4 +2,6 @@
     <string name="app_name">Weather App</string>
     <string name="title_home">Home</string>
     <string name="title_location">Locations</string>
+
+    <string name="title_main_delete">Delete</string>
 </resources>
