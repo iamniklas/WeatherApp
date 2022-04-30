@@ -16,8 +16,7 @@ data class WeatherData(val cityName: String,
                        val conditionIcon: String,
                        val windDirection: String,
                        val visibilityInKm: Float,
-                       val humidity: Int,
-): Parcelable {
+                       val humidity: Int): Parcelable {
 
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
