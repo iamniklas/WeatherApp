@@ -68,18 +68,17 @@ class MainActivity : AppCompatActivity() {
                     val resultAlertDialogBuilder = AlertDialog.Builder(this@MainActivity)
                     resultAlertDialogBuilder.apply {
                         setTitle("Is this what you are looking for?")
-                        setMessage("City: ${result.cityName}\nRegion:${result.region}\nCountry:${result.country}")
-                        setPositiveButton("Correct", object : DialogInterface.OnClickListener {
-                            override fun onClick(p0: DialogInterface?, p1: Int) {
-                                locations.add(input.editableText.toString())
-                                SharedPreferences.saveLocations(applicationContext, locations)
-                                doFragmentReload()
-                            }
-                        })
+                        setMessage("City: ${result.cityName}\nRegion: ${result.region}\nCountry: ${result.country}")
+                        setPositiveButton("Correct") { p0, p1 ->
+                            locations.add(input.editableText.toString())
+                            SharedPreferences.saveLocations(applicationContext, locations)
+                            doFragmentReload()
+                        }
                         setNegativeButton("No", object : DialogInterface.OnClickListener {
                             override fun onClick(p0: DialogInterface?, p1: Int) { }
                         })
                     }
+                    resultAlertDialogBuilder.show()
                 }
 
                 override fun onFailure(exception: Exception) {
