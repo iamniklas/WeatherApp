@@ -63,6 +63,25 @@ class HomeFragment : Fragment(), HomeRecyclerViewAdapter.ItemClickListener, Frag
         return root
     }
 
+    override fun onResume() {
+        super.onResume()
+        /*locations = SharedPreferences.getSavedLocations(requireContext())
+
+        weatherData = arrayOfNulls(locations.size)
+        for (i in locations.indices) {
+            WeatherDataService().getWeatherData(requireContext(), locations[i], object : OnResultListener<WeatherData> {
+                override fun onSuccess(result: WeatherData) {
+                    weatherData[i] = result
+                    onTaskCompleted()
+                }
+
+                override fun onFailure(exception: Exception) {
+
+                }
+            })
+        }*/
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

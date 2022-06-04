@@ -70,13 +70,12 @@ class MainActivity : AppCompatActivity() {
                         setTitle("Is this what you are looking for?")
                         setMessage("City: ${result.cityName}\nRegion: ${result.region}\nCountry: ${result.country}")
                         setPositiveButton("Correct") { p0, p1 ->
+                            locations = SharedPreferences.getSavedLocations(applicationContext)
                             locations.add(input.editableText.toString())
                             SharedPreferences.saveLocations(applicationContext, locations)
                             doFragmentReload()
                         }
-                        setNegativeButton("No", object : DialogInterface.OnClickListener {
-                            override fun onClick(p0: DialogInterface?, p1: Int) { }
-                        })
+                        setNegativeButton("No") { p0, p1 -> }
                     }
                     resultAlertDialogBuilder.show()
                 }

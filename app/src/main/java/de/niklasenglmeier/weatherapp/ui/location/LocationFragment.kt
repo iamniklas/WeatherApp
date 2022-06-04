@@ -51,6 +51,7 @@ class LocationFragment : Fragment(), LocationRecyclerViewAdapter.ItemClickListen
         locations.removeAt(position)
 
         SharedPreferences.saveLocations(requireContext(), locations)
+        locations = SharedPreferences.getSavedLocations(requireContext())
         onReload()
     }
 

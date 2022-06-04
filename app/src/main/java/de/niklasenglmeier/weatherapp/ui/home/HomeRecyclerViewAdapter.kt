@@ -44,11 +44,6 @@ class HomeRecyclerViewAdapter(var activity: Activity, var id: Int, var data: Arr
         val picasso = Picasso.get()
         picasso.isLoggingEnabled = true
         picasso.load("https:${data[position]!!.conditionIcon}").into(holder.statusIcon)
-
-        holder.itemView.setOnLongClickListener {
-            setPosition(holder.position)
-            false
-        }
     }
 
     override fun onViewRecycled(holder: HomeRecyclerViewAdapter.ViewHolder) {
@@ -74,7 +69,7 @@ class HomeRecyclerViewAdapter(var activity: Activity, var id: Int, var data: Arr
         this.position = position
     }
 
-    inner class ViewHolder(_viewId: Int, _view: View, _ctx: Context) : RecyclerView.ViewHolder(_view), View.OnClickListener, View.OnCreateContextMenuListener {
+    inner class ViewHolder(_viewId: Int, _view: View, _ctx: Context) : RecyclerView.ViewHolder(_view), View.OnClickListener {
         private val viewId = _viewId
         private val view = _view
         private val cardview: CardView = view.findViewById(R.id.cardView_weather_card)
@@ -86,15 +81,10 @@ class HomeRecyclerViewAdapter(var activity: Activity, var id: Int, var data: Arr
 
         init {
             cardview.setOnClickListener(this)
-            cardview.setOnCreateContextMenuListener(this)
         }
 
         override fun onClick(v: View?) {
             clickListener.onItemClick(viewId, adapterPosition)
-        }
-
-        override fun onCreateContextMenu(contextMenu: ContextMenu?, view: View?, contextMenuInfo: ContextMenu.ContextMenuInfo?) {
-            activity.menuInflater.inflate(R.menu.context_menu_main_recycler_view, contextMenu)
         }
     }
 
